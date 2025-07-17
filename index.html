@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BackflowList Check</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2em;
+      background: #f5f5f5;
+      text-align: center;
+    }
+    input {
+      padding: 1em;
+      font-size: 1.2em;
+      width: 80%;
+      max-width: 300px;
+      margin-bottom: 1em;
+    }
+    button {
+      padding: 0.8em 1.5em;
+      font-size: 1em;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+    }
+    .message {
+      margin-top: 1em;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>BackflowList Check</h1>
+  <input type="text" id="userInput" maxlength="8" placeholder="article input" inputmode="numeric" pattern="\d{8}">
+  <br>
+  <button onclick="checkNumber()">확인</button>
+  <div class="message" id="result"></div>
+
+  <script>
+    // 비교 대상 숫자 목록
+    const validNumbers = [
+      "30525643", "70525655", "00581485", "0305500",  "10459168",
+      "10587175", "20359205", "30476336", "30586491", "40293874",
+      "40324724", "40506917", "50174465", "50587178", "60597105",
+      "70561016", "70597100", "80449208", "80459023", "90163323",
+      "90242033", "90485272", "90486870"
+    ];
+
+    function checkNumber() {
+      const input = document.getElementById("userInput").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (input.length !== 8 || isNaN(input)) {
+        resultDiv.textContent = "article input.";
+        resultDiv.style.color = "red";
+        return;
+      }
+
+      if (validNumbers.includes(input)) {
+        resultDiv.textContent = "backflow";
+        resultDiv.style.color = "green";
+      } else {
+        resultDiv.textContent = "imple";
+        resultDiv.style.color = "blue";
+      }
+    }
+  </script>
+</body>
+</html>
