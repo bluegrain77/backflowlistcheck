@@ -1,174 +1,335 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
+
 <meta charset="UTF-8" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <title>B/F list check</title>
+
 <style>
+
   body {
+
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
     background: linear-gradient(135deg, #ece9e6, #ffffff);
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
+
     min-height: 100vh;
+
     margin: 0;
+
   }
+
   .container {
+
     background: #fff;
+
     padding: 40px 30px;
+
     border-radius: 15px;
+
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+
     max-width: 500px;
+
     width: 100%;
+
     box-sizing: border-box;
+
   }
+
   h1 {
+
     margin-bottom: 20px;
+
     text-align: center;
+
     color: #333;
+
     font-weight: 700;
+
   }
+
   input[type="text"] {
-    /* 기존 스타일 유지 */
-    width: 100%;
+
+    width: 50%;
+
     padding: 15px;
+
     font-size: 1em;
+
     border: 2px solid #ddd;
+
     border-radius: 8px;
+
     transition: border-color 0.3s;
-  
-    /* 숫자 입력란 너비를 균형 있게 조절하는 새로운 스타일 */
-    max-width: 200px; /* 최대 너비를 200px로 제한 */
-    margin: 0 auto; /* 가운데 정렬 */
-    display: block; /* margin auto가 작동하도록 블록 요소로 지정 */
+
   }
+
   input[type="text"]:focus {
+
     border-color: #5a67d8;
+
     outline: none;
+
   }
+
   button {
+
     width: 100%;
+
     padding: 15px;
+
     margin-top: 20px;
+
     background-color: #5a67d8;
+
     color: #fff;
+
     border: none;
+
     border-radius: 8px;
+
     font-size: 1.1em;
+
     cursor: pointer;
+
     transition: background-color 0.3s;
+
   }
+
   button:hover {
+
     background-color: #434190;
+
   }
+
   .result {
+
     margin-top: 25px;
+
     padding: 15px;
+
     background-color: #f7fafc;
+
     border-radius: 10px;
+
     box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+
     min-height: 50px;
+
     font-size: 1.1em;
+
     color: #333;
+
     white-space: pre-wrap;
+
   }
+
 </style>
+
 </head>
+
 <body>
+
 <div class="container">
+
   <h1>B/F list Check</h1>
+
   <input type="text" id="inputNumber" placeholder="input article number" maxlength="8"/>
+
   <button onclick="searchData()">조회하기</button>
+
   <div class="result" id="resultDisplay">여기에 결과가 나타납니다.</div>
+
 </div>
 
+
+
 <script>
+
 const dataMap = {
+
     "40521951": "웁필드 1멀티(54개) IN / 1멀티 OUT",
+
     "60463728": "미닥스마트 3멀티(30개) IN / 4멀티 OUT",
+
     "40449205": "클로크렌 2멀티(20개) IN / 6멀티 OUT",
+
     "20174645": "콘시스 3멀티 (45개) IN / 2멀티 OUT / 4멀티 S07",
+
     "50174516": "이데알리스크 2멀티 IN / 10멀티 OUT",
+
     "50584981": "고드미다그 1멀티 IN / 5멀티 OUT",
+
     "60321079": "우프비스파드 1멀티 IN / 2멀티 OUT",
+
     "90521034": "마르토르프 1멀티 IN / 6멀티 OUT",
+
     "30597022": "글라델리그 1멀티 IN / 37멀티 OUT",
+
     "60596988": "글라델리그 1멀티 IN / 39멀티 OUT",
+
     "70582778": "모스말 1멀티 IN / 1멀티 OUT",
+
     "80428480": "푀르누프트 1멀티 IN / 1멀티 OUT",
+
     "50597525": "스쿡스투브 5멀티 IN / 4멀티 OUT",
+
     "90532725": "이케아365 티메이커 3멀티 IN / 4멀티 OUT",
+
     "10171303": "전체 Backflow",
+
     "10449184": "전체 Backflow",
+
     "80563430": "전체 Backflow",
+
     "90565853": "전체 Backflow",
+
     "20486859": "전체 Backflow",
+
     "70573321": "전체 Backflow",
+
     "80191915": "전체 Backflow",
+
     "10561340": "전체 Backflow",
+
     "60561352": "전체 Backflow",
+
     "50587178": "전체 Backflow",
+
     "60561007": "전체 Backflow",
+
     "40601349": "전체 Backflow",
+
     "40179699": "전체 Backflow",
+
     "90539557": "전체 Backflow",
+
     "10513877": "전체 Backflow",
+
     "60602512": "전체 Backflow",
+
     "10497924": "전체 Backflow",
+
     "60417312": "전체 Backflow",
+
     "10597527": "전체 Backflow",
+
     "40506917": "전체 Backflow",
+
     "00359211": "전체 Backflow",
+
     "10134023": "전체 Backflow",
+
     "30319025": "전체 Backflow",
+
     "30600755": "전체 Backflow",
+
     "80600753": "전체 Backflow",
+
     "00480014": "전체 Backflow",
+
     "20318941": "전체 Backflow",
+
     "90608254": "전체 Backflow",
+
     "10279676": "전체 Backflow",
+
     "20607366": "전체 Backflow",
+
     "40585028": "전체 Backflow",
+
     "50258945": "전체 Backflow",
+
     "50479701": "전체 Backflow",
+
     "60282997": "전체 Backflow",
+
     "60585027": "전체 Backflow",
+
     "10563688": "전체 Backflow",
+
     "20480541": "전체 Backflow",
+
     "00479416": "전체 Backflow",
+
     "60503300": "전체 Backflow",
+
     "60559448": "전체 Backflow",
+
     "90177589": "전체 Backflow",
+
     "40417450": "전체 Backflow",
+
     "80417245": "전체 Backflow",
+
     "20597517": "전체 Backflow",
+
     "50566642": "전체 Backflow",
+
     "00599701": "전체 Backflow",
+
     "00322473": "전체 Backflow",
+
     "30476336": "전체 Backflow"
+
 };
 
+
+
 function searchData() {
+
   const input = document.getElementById('inputNumber').value.trim();
+
   const resultDiv = document.getElementById('resultDisplay');
 
+
+
   // 입력값이 없는 경우 경고 메시지
+
   if (!input) {
+
     alert('article number를 입력하세요.');
+
     resultDiv.textContent = '';
+
     return;
+
   }
+
+
 
   // 데이터 조회
+
   const result = dataMap[input];
 
+
+
   if (result) {
+
     resultDiv.textContent = result;
+
   } else {
+
     resultDiv.textContent = "해당 번호에 대한 데이터가 없습니다.";
+
   }
+
 }
+
 </script>
+
 </body>
+
 </html>
