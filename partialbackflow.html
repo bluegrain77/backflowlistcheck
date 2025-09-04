@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>부분 B/F ariticle check </title>
+<title>부분 B/F list check</title>
 <style>
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -71,8 +71,8 @@
 </head>
 <body>
 <div class="container">
-  <h1> 부분 B/F List check </h1>
-  <input type="text" id="inputNumber" placeholder="input article number" maxlength="8" style="max-width: 250px; display: block; margin: 0 auto;"/>
+  <h1>부분 B/F list Check</h1>
+  <input type="text" id="inputNumber" placeholder="input article number" maxlength="8"/>
   <button onclick="searchData()">조회하기</button>
   <div class="result" id="resultDisplay">여기에 결과가 나타납니다.</div>
 </div>
@@ -96,35 +96,4 @@ const dataMap = {
 };
 
 function searchData() {
-  const input = document.getElementById('inputNumber').value.trim();
-  const resultDiv = document.getElementById('resultDisplay');
-
-  // 입력값이 없는 경우 경고 메시지
-  if (!input) {
-    alert('article number를 입력하세요.');
-    resultDiv.textContent = '';
-    return;
-  }
-
-  // 데이터 조회
-  const result = dataMap[input];
-
-  // 시각적 변화를 먼저 적용
-  resultDiv.style.transition = 'background-color 0.3s ease';
-  resultDiv.style.backgroundColor = '#e0f7fa'; // 검색 시작 시 연한 파란색으로 변경
-
-  // 결과값을 설정
-  if (result) {
-    resultDiv.textContent = result;
-  } else {
-    resultDiv.textContent = "해당 번호에 대한 데이터가 없습니다.";
-  }
-
-  // 일정 시간 후 원래 색상으로 복구
-  setTimeout(() => {
-    resultDiv.style.backgroundColor = ''; // 원래 색상으로 복구
-  }, 500); // 0.5초 후 복구
-}
-</script>
-</body>
-</html>
+  const input =
