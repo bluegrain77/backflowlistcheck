@@ -92,56 +92,77 @@ const dataMap = {
     "70582778": "모스말 1멀티 IN / 1멀티 OUT",
     "80428480": "푀르누프트 1멀티 IN / 1멀티 OUT",
     "50597525": "스쿡스투브 5멀티 IN / 4멀티 OUT",
-    "90532725": "이케아365 티메이커 3멀티 IN / 4멀티 OUT”,    
-    "10171303": “전체 Backflow”,     
-    "10449184": “전체 Backflow”,     
-    "80563430": “전체 Backflow”,     
-    "90565853": “전체 Backflow”,     
-    "20486859": “전체 Backflow”,
-    "70573321": “전체 Backflow”,     
-    "80191915": “전체 Backflow”,     
-    "10561340": “전체 Backflow”,     
-    "60561352": “전체 Backflow”,     
-    "50587178": “전체 Backflow”,
-    "60561007": “전체 Backflow”,    
-    "40601349": “전체 Backflow”,     
-    "40179699": “전체 Backflow”,    
-    "90539557": “전체 Backflow”,     
-    "10513877": “전체 Backflow”,
-    "60602512": “전체 Backflow”,
-    "10497924": “전체 Backflow”,
-    "60417312": “전체 Backflow”,
-    "10597527": “전체 Backflow”,
-    "40506917": “전체 Backflow”,
-    "00359211": “전체 Backflow”,
-    "10134023": “전체 Backflow”,
-    "30319025": “전체 Backflow”,
-    "30600755": “전체 Backflow”,
-    "80600753": “전체 Backflow”,
-    "00480014": “전체 Backflow”,
-    "20318941": “전체 Backflow”,
-    "90608254": “전체 Backflow”,
-    "10279676": “전체 Backflow”,
-    "20607366": “전체 Backflow”,
-    "40585028": “전체 Backflow”,     
-    "50258945": “전체 Backflow”,
-    "50479701": “전체 Backflow”, 
-    “60282997": “전체 Backflow”,    
-    "60585027": “전체 Backflow”,
-    "10563688": “전체 Backflow”, 
-    "20480541": “전체 Backflow”,
-    "00479416": “전체 Backflow”,
-    "60503300": “전체 Backflow”,
-    "60559448": “전체 Backflow”,
-    "90177589": “전체 Backflow”,
-    "40417450”: “전체 Backflow”, 
-    "80417245": “전체 Backflow”,
-    "20597517": “전체 Backflow”,
-    "50566642": “전체 Backflow”
-    "00599701": “전체 Backflow”,
-    "00322473": “전체 Backflow”,
-    "30476336": “전체 Backflow” 
+    "90532725": "이케아365 티메이커 3멀티 IN / 4멀티 OUT",
+    "10171303": "전체 Backflow",
+    "10449184": "전체 Backflow",
+    "80563430": "전체 Backflow",
+    "90565853": "전체 Backflow",
+    "20486859": "전체 Backflow",
+    "70573321": "전체 Backflow",
+    "80191915": "전체 Backflow",
+    "10561340": "전체 Backflow",
+    "60561352": "전체 Backflow",
+    "50587178": "전체 Backflow",
+    "60561007": "전체 Backflow",
+    "40601349": "전체 Backflow",
+    "40179699": "전체 Backflow",
+    "90539557": "전체 Backflow",
+    "10513877": "전체 Backflow",
+    "60602512": "전체 Backflow",
+    "10497924": "전체 Backflow",
+    "60417312": "전체 Backflow",
+    "10597527": "전체 Backflow",
+    "40506917": "전체 Backflow",
+    "00359211": "전체 Backflow",
+    "10134023": "전체 Backflow",
+    "30319025": "전체 Backflow",
+    "30600755": "전체 Backflow",
+    "80600753": "전체 Backflow",
+    "00480014": "전체 Backflow",
+    "20318941": "전체 Backflow",
+    "90608254": "전체 Backflow",
+    "10279676": "전체 Backflow",
+    "20607366": "전체 Backflow",
+    "40585028": "전체 Backflow",
+    "50258945": "전체 Backflow",
+    "50479701": "전체 Backflow",
+    "60282997": "전체 Backflow",
+    "60585027": "전체 Backflow",
+    "10563688": "전체 Backflow",
+    "20480541": "전체 Backflow",
+    "00479416": "전체 Backflow",
+    "60503300": "전체 Backflow",
+    "60559448": "전체 Backflow",
+    "90177589": "전체 Backflow",
+    "40417450": "전체 Backflow",
+    "80417245": "전체 Backflow",
+    "20597517": "전체 Backflow",
+    "50566642": "전체 Backflow",
+    "00599701": "전체 Backflow",
+    "00322473": "전체 Backflow",
+    "30476336": "전체 Backflow"
 };
 
 function searchData() {
-  const input =
+  const input = document.getElementById('inputNumber').value.trim();
+  const resultDiv = document.getElementById('resultDisplay');
+
+  // 입력값이 없는 경우 경고 메시지
+  if (!input) {
+    alert('article number를 입력하세요.');
+    resultDiv.textContent = '';
+    return;
+  }
+
+  // 데이터 조회
+  const result = dataMap[input];
+
+  if (result) {
+    resultDiv.textContent = result;
+  } else {
+    resultDiv.textContent = "해당 번호에 대한 데이터가 없습니다.";
+  }
+}
+</script>
+</body>
+</html>
