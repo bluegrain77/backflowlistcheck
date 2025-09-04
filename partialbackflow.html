@@ -72,7 +72,7 @@
 <body>
 <div class="container">
   <h1> 부분 B/F List check </h1>
-  <input type="text" id="inputNumber" placeholder="input article number" maxlength="8"/>
+  <input type="text" id="inputNumber" placeholder="input article number" maxlength="8" style="max-width: 250px; display: block; margin: 0 auto;"/>
   <button onclick="searchData()">조회하기</button>
   <div class="result" id="resultDisplay">여기에 결과가 나타납니다.</div>
 </div>
@@ -101,27 +101,30 @@ function searchData() {
 
   // 입력값이 없는 경우 경고 메시지
   if (!input) {
-    alert(‘aritcle number를 입력하세요.');
+    alert('article number를 입력하세요.');
     resultDiv.textContent = '';
     return;
   }
 
-  // 시각적 변화 추가: 배경색 변경
-  resultDiv.style.transition = 'background-color 0.3s ease';
-  resultDiv.style.backgroundColor = '#e0f7fa'; // 검색 시작 시 연한 파란색으로 변경
-
-  // 일정 시간 후 원래 색상으로 복구
-  setTimeout(() => {
-    resultDiv.style.backgroundColor = ''; // 원래 색상으로 복구
-  }, 500); // 0.5초 후 복구
-
   // 데이터 조회
   const result = dataMap[input];
 
+  // 시각적 변화를 먼저 적용
+  resultDiv.style.transition = 'background-color 0.3s ease';
+  resultDiv.style.backgroundColor = '#e0f7fa'; // 검색 시작 시 연한 파란색으로 변경
+
+  // 결과값을 설정
   if (result) {
     resultDiv.textContent = result;
   } else {
     resultDiv.textContent = "해당 번호에 대한 데이터가 없습니다.";
   }
+
+  // 일정 시간 후 원래 색상으로 복구
+  setTimeout(() => {
+    resultDiv.style.backgroundColor = ''; // 원래 색상으로 복구
+  }, 500); // 0.5초 후 복구
 }
 </script>
+</body>
+</html>
