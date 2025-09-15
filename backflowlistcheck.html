@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>부분 B/F list check</title>
+<title>B/F list check</title>
 <style>
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -36,6 +36,7 @@
     border: 2px solid #ddd;
     border-radius: 8px;
     transition: border-color 0.3s;
+    box-sizing: border-box;
   }
   input[type="text"]:focus {
     border-color: #5a67d8;
@@ -52,6 +53,7 @@
     font-size: 1.1em;
     cursor: pointer;
     transition: background-color 0.3s;
+    box-sizing: border-box;
   }
   button:hover {
     background-color: #434190;
@@ -71,7 +73,7 @@
 </head>
 <body>
 <div class="container">
-  <h1>부분 B/F list Check</h1>
+  <h1>B/F list Check</h1>
   <input type="text" id="inputNumber" placeholder="input article number" maxlength="8"/>
   <button onclick="searchData()">조회하기</button>
   <div class="result" id="resultDisplay">여기에 결과가 나타납니다.</div>
@@ -79,69 +81,71 @@
 
 <script>
 const dataMap = {
-    "40521951": "웁필드 1멀티(54개) IN / 1멀티 OUT",
-    "60463728": "미닥스마트 3멀티(30개) IN / 4멀티 OUT",
-    "40449205": "클로크렌 2멀티(20개) IN / 6멀티 OUT",
-    "20174645": "콘시스 3멀티 (45개) IN / 2멀티 OUT / 4멀티 S07",
-    "50174516": "이데알리스크 2멀티 IN / 10멀티 OUT",
-    "50584981": "고드미다그 1멀티 IN / 5멀티 OUT",
-    "60321079": "우프비스파드 1멀티 IN / 2멀티 OUT",
-    "90521034": "마르토르프 1멀티 IN / 6멀티 OUT",
-    "30597022": "글라델리그 1멀티 IN / 37멀티 OUT",
-    "60596988": "글라델리그 1멀티 IN / 39멀티 OUT",
-    "70582778": "모스말 1멀티 IN / 1멀티 OUT",
-    "80428480": "푀르누프트 1멀티 IN / 1멀티 OUT",
-    "50597525": "스쿡스투브 5멀티 IN / 4멀티 OUT",
-    "90532725": "이케아365 티메이커 3멀티 IN / 4멀티 OUT”,     
-    "10171303": “전체 Backflow”,    
-    "10449184": “전체 Backflow”,     
-    "80563430": “전체 Backflow”,     
-    "90565853": “전체 Backflow”,    
-    "20486859": “전체 Backflow”,
-    "70573321": “전체 Backflow”,   
-    "80191915": “전체 Backflow”,    
-    "10561340": “전체 Backflow”,    
-    "60561352": “전체 Backflow”,    
-    "50587178": “전체 Backflow”,
-    "60561007": “전체 Backflow”,    
-    "40601349": “전체 Backflow”,    
-    "40179699": “전체 Backflow”,    
-    "90539557": “전체 Backflow”,     
-    "10513877": “전체 Backflow”,
-    "60602512": “전체 Backflow”,
-    "10497924": “전체 Backflow”,
-    "60417312": “전체 Backflow”,
-    "10597527": “전체 Backflow”,
-    "40506917": “전체 Backflow”,
-    "00359211": “전체 Backflow”,
-    "10134023": “전체 Backflow”,
-    "30319025": “전체 Backflow”,
-    "30600755": “전체 Backflow”,
-    "80600753": “전체 Backflow”,
-    "00480014": “전체 Backflow”,
-    "20318941": “전체 Backflow”,
-    "90608254": “전체 Backflow”,
-    "10279676": “전체 Backflow”,
-    "20607366": “전체 Backflow”,
-    "40585028": “전체 Backflow”,     
-    "50258945": “전체 Backflow”,
-    "50479701": “전체 Backflow”, 
-    “60282997": “전체 Backflow”,   
-    "60585027": “전체 Backflow”,
-    "10563688": “전체 Backflow”, 
-    "20480541": “전체 Backflow”,
-    "00479416": “전체 Backflow”,
-    "60503300": “전체 Backflow”,
-    "60559448": “전체 Backflow”,
-    "90177589": “전체 Backflow”,
-    "40417450”: “전체 Backflow”, 
-    "80417245": “전체 Backflow”,
-    "20597517": “전체 Backflow”,
-    "50566642": “전체 Backflow”
-    "00599701": “전체 Backflow”,
-    "00322473": “전체 Backflow”,
-    "30476336": “전체 Backflow” 
+    "00179535": "오르드닝 [6멀티 IN / 5멀티 OUT]",
+    "30595443": "린니그 [1멀티 IN (+1멀티 IN쿡샵)/ 9멀티 OUT]",
+    "60503475": "릴하베트 [3멀티 IN / 15멀티 OUT]",
+    "90602474": "바르다겐 [1멀티 IN / 23멀티 OUT]",  
+    "20602509": "클립피스크 [10멀티 IN / 10멀티 OUT]",
+    "10512811": "스톨테트 [6멀티 IN / 12멀티 OUT]",
+    "60561352": "베크뢰딩 [2멀티 IN / 2멀티 OUT]",
+    "30595443": "린니그 건조매트  [1멀티 IN (+1멀티 키친)/ 9멀티 OUT]",
+    "90324552": "센수엘 [5멀티 IN / 11멀티 OUT]",
+    "10610996": "클립칵투스 [2멀티 IN / 3멀티 OUT]",
+    "50610999": "클립칵투스 [2멀티 IN / 4멀티 OUT]",
+    "40485731": "그뢴사케르 [5멀티 IN / 6멀티 OUT]",
+    "30597017": "글라델리그 [2멀티 IN / 58멀티 OUT]",
+    "40278350": "이케아365 [2멀티 IN / 7멀티 OUT]",
+    "50584981": "고드미다그 [2멀티 IN / 6멀티 OUT]",
+    "20596990": "글라델리그 [2멀티 IN / 58멀티 OUT]",
+    "30586491": "글라델리그 [2멀티 IN / 9멀티 OUT]",
+    "40417450": "드룀빌드  [3멀티 IN / 24멀티 OUT]",
+    "40327690": "전체 Backflow",
+    "20553226": "전체 Backflow",
+    "80444296": "전체 Backflow",  
+    "80562765": "전체 Backflow",  
+    "90515165": "전체 Backflow",
+    "20486859": "전체 Backflow",  
+    "90486870": "전체 Backflow",  
+    "20174645": "전체 Backflow",  
+    "40513866": "전체 Backflow",
+    "60602512": "전체 Backflow",  
+    "90497802": "전체 Backflow",  
+    "70452116": "전체 Backflow",  
+    "30319025": "전체 Backflow",  
+    "40319020": "전체 Backflow",  
+    "50600759": "전체 Backflow",
+    "60600749": "전체 Backflow",  
+    "30258951": "전체 Backflow",  
+    "30588720": "전체 Backflow",  
+    "70581496": "전체 Backflow",  
+    "20480541": "전체 Backflow",
+    "50417242": "전체 Backflow",  
+    "60565699": "전체 Backflow",
+    "70479371": "전체 Backflow",  
+    "70582778": "전체 Backflow",  
+    "70452116": "전체 Backflow"
 };
 
 function searchData() {
-  const input =
+  const input = document.getElementById('inputNumber').value.trim();
+  const resultDiv = document.getElementById('resultDisplay');
+
+  // 입력값이 없는 경우 경고 메시지
+  if (!input) {
+    alert('article number를 입력하세요.');
+    resultDiv.textContent = '';
+    return;
+  }
+
+  // 데이터 조회
+  const result = dataMap[input];
+
+  if (result) {
+    resultDiv.textContent = result;
+  } else {
+    resultDiv.textContent = "해당 번호에 대한 데이터가 없습니다.";
+  }
+}
+</script>
+</body>
+</html>
