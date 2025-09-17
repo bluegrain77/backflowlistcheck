@@ -29,6 +29,16 @@
     color: #333;
     font-weight: 700;
   }
+  .input-container {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+  }
   input[type="text"] {
     width: 100%;
     padding: 15px;
@@ -42,10 +52,20 @@
     border-color: #5a67d8;
     outline: none;
   }
+  input[type="text"].error {
+    border-color: #e53e3e;
+    background-color: #fed7d7;
+  }
+  .error-message {
+    color: #e53e3e;
+    font-size: 0.9em;
+    margin-top: 5px;
+    min-height: 20px;
+  }
   button {
     width: 100%;
     padding: 15px;
-    margin-top: 20px;
+    margin-top: 10px;
     background-color: #5a67d8;
     color: #fff;
     border: none;
@@ -55,8 +75,12 @@
     transition: background-color 0.3s;
     box-sizing: border-box;
   }
-  button:hover {
+  button:hover:not(:disabled) {
     background-color: #434190;
+  }
+  button:disabled {
+    background-color: #cbd5e0;
+    cursor: not-allowed;
   }
   .result {
     margin-top: 25px;
@@ -69,20 +93,31 @@
     color: #333;
     white-space: pre-wrap;
   }
+  .result.success {
+    background-color: #f0fff4;
+    border-left: 4px solid #38a169;
+  }
+  .result.not-found {
+    background-color: #fef5e7;
+    border-left: 4px solid #ed8936;
+  }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>B/F list Check</h1>
-  <input type="text" id="inputNumber" placeholder="input article number" maxlength="8"/>
-  <button onclick="searchData()">조회하기</button>
-  <div class="result" id="resultDisplay">여기에 결과가 나타납니다.</div>
+  <h1>B/F List Check</h1>
+  <div class="input-container">
+    <label for="inputNumber">Article Number (8자리 숫자)</label>
+    <input type="text" id="inputNumber" placeholder="예: 70580699" maxlength="8"/>
+    <div class="error-message" id="errorMessage"></div>
+  </div>
+  <button onclick="searchData()" id="searchButton">조회하기</button>
+  <div class="result" id="resultDisplay">8자리 article number를 입력하고 조회하세요.</div>
 </div>
-
 <script>
 const dataMap = {
-    "70580699": "Total : 16 Box // 3 Box In / 13 box Bf",
-    "80580892": "Total : 11 Box // 4 Box In / 7 box Bf",
+    "70580699": "Total : 16 Box // 3 Box In / 13 Box Bf",
+    "80580892": "Total : 11 Box // 4 Box In / 7 Box Bf",
     "50572817": "Total : 3Pt + 4ea // 3.4 Box In (34ea) / 51 Box Bf",
     "00213544": "전체 Backflow",
     "00213558": "전체 Backflow",
@@ -123,26 +158,91 @@ const dataMap = {
     "90580716": "전체 Backflow" 
 };
 
-function searchData() {
-  const input = document.getElementById('inputNumber').value.trim();
-  const resultDiv = document.getElementById('resultDisplay');
+const inputField = document.getElementById('inputNumber');
+const errorMessageDiv = document.getElementById('errorMessage');
+const resultDiv = document.getElementById('resultDisplay');
+const searchButton = document.getElementById('searchButton');
 
-  // 입력값이 없는 경우 경고 메시지
-  if (!input) {
-    alert('article number를 입력하세요.');
-    resultDiv.textContent = '';
-    return;
+// 실시간 입력 검증
+inputField.addEventListener('input', function(e) {
+  // 숫자만 허용
+  const value = e.target.value.replace(/[^0-9]/g, '');
+  e.target.value = value;
+  
+  validateInput();
+});
+
+// Enter 키 이벤트 처리
+inputField.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    searchData();
   }
+});
 
-  // 데이터 조회
-  const result = dataMap[input];
-
-  if (result) {
-    resultDiv.textContent = result;
+function validateInput() {
+  const input = inputField.value.trim();
+  const isValid = /^\d{8}$/.test(input);
+  
+  if (input.length === 0) {
+    setError('');
+    return false;
+  } else if (input.length > 0 && input.length < 8) {
+    setError('8자리 숫자를 입력해주세요.');
+    return false;
+  } else if (!isValid && input.length === 8) {
+    setError('숫자만 입력 가능합니다.');
+    return false;
   } else {
-    resultDiv.textContent = "해당 번호에 대한 데이터가 없습니다.";
+    clearError();
+    return true;
   }
 }
+
+function setError(message) {
+  errorMessageDiv.textContent = message;
+  inputField.classList.add('error');
+  searchButton.disabled = true;
+}
+
+function clearError() {
+  errorMessageDiv.textContent = '';
+  inputField.classList.remove('error');
+  searchButton.disabled = false;
+}
+
+function searchData() {
+  const input = inputField.value.trim();
+  
+  // 입력값이 없는 경우
+  if (!input) {
+    alert('Article number를 입력하세요.');
+    inputField.focus();
+    return;
+  }
+  
+  // 8자리 숫자 형식 검증
+  if (!/^\d{8}$/.test(input)) {
+    alert('8자리 숫자를 정확히 입력하세요.');
+    inputField.focus();
+    return;
+  }
+  
+  // 데이터 조회
+  const result = dataMap[input];
+  
+  if (result) {
+    resultDiv.textContent = `Article Number: ${input}\n\n${result}`;
+    resultDiv.className = 'result success';
+  } else {
+    resultDiv.textContent = `Article Number: ${input}\n\n해당 번호에 대한 데이터가 없습니다.`;
+    resultDiv.className = 'result not-found';
+  }
+}
+
+// 페이지 로드 시 초기 검증
+window.addEventListener('load', function() {
+  validateInput();
+});
 </script>
 </body>
 </html>
