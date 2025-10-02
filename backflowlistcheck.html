@@ -84,75 +84,22 @@
   }
   .result {
     margin-top: 25px;
-    padding: 20px;
-    background: linear-gradient(145deg, #f8fafc, #e2e8f0);
-    border-radius: 15px;
-    box-shadow: 
-      0 4px 15px rgba(0,0,0,0.1),
-      inset 0 1px 0 rgba(255,255,255,0.8);
+    padding: 15px;
+    background-color: #f7fafc;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
     min-height: 50px;
     font-size: 1.1em;
-    color: #2d3748;
+    color: #333;
     white-space: pre-wrap;
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .result::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 5px;
-    height: 100%;
-    background: #cbd5e0;
-    transition: background 0.3s ease;
   }
   .result.success {
-    background: linear-gradient(145deg, #f0fff4, #c6f6d5);
-    border-color: #9ae6b4;
-    color: #22543d;
-    animation: slideIn 0.5s ease-out;
-  }
-  .result.success::before {
-    background: linear-gradient(180deg, #38a169, #48bb78);
-    box-shadow: 0 0 10px rgba(56, 161, 105, 0.3);
+    background-color: #f0fff4;
+    border-left: 4px solid #38a169;
   }
   .result.not-found {
-    background: linear-gradient(145deg, #fffbf0, #fef5e7);
-    border-color: #f6ad55;
-    color: #744210;
-    animation: slideIn 0.5s ease-out;
-  }
-  .result.not-found::before {
-    background: linear-gradient(180deg, #ed8936, #f6ad55);
-    box-shadow: 0 0 10px rgba(237, 137, 54, 0.3);
-  }
-  .result.error {
-    background: linear-gradient(145deg, #fed7d7, #feb2b2);
-    border-color: #fc8181;
-    color: #742a2a;
-    animation: shake 0.5s ease-out;
-  }
-  .result.error::before {
-    background: linear-gradient(180deg, #e53e3e, #fc8181);
-    box-shadow: 0 0 10px rgba(229, 62, 62, 0.3);
-  }
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
+    background-color: #fef5e7;
+    border-left: 4px solid #ed8936;
   }
 </style>
 </head>
@@ -161,17 +108,10 @@
   <h1>B/F List Check</h1>
   <div class="input-container">
     <label for="inputNumber">Article Number (8자리 숫자)</label>
-    <input 
-      type="text" 
-      id="inputNumber" 
-      placeholder="예: 70580699" 
-      maxlength="8"
-      aria-describedby="errorMessage"
-      aria-invalid="false"
-    />
-    <div class="error-message" id="errorMessage" aria-live="polite"></div>
+    <input type="text" id="inputNumber" placeholder="예: 70580699" maxlength="8"/>
+    <div class="error-message" id="errorMessage"></div>
   </div>
-  <button onclick="searchData()" id="searchButton" disabled>조회하기</button>
+  <button onclick="searchData()" id="searchButton">조회하기</button>
   <div class="result" id="resultDisplay">8자리 article number를 입력하고 조회하세요.</div>
 </div>
 <script>
@@ -212,7 +152,7 @@ const dataMap = {
     "70279701": "전량 B/f(S rts) 이케아365 28cm",
     "90177589": "전량 B/f(S rts) 드라곤",
     "00592441": "전량 B/f(S rts) 스톡홀름",
-    "80592442": "전량 B/f(S rts) 스톡홀름",
+    "80592442": "전량 B/f(S rts) 스톡홀름"
 };
 
 const inputField = document.getElementById('inputNumber');
@@ -231,24 +171,22 @@ inputField.addEventListener('input', function(e) {
 
 // Enter 키 이벤트 처리
 inputField.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter' && !searchButton.disabled) {
+  if (e.key === 'Enter') {
     searchData();
   }
 });
 
 function validateInput() {
   const input = inputField.value.trim();
+  const isValid = /^\d{8}$/.test(input);
   
   if (input.length === 0) {
-    clearError();
-    searchButton.disabled = true;
+    setError('');
     return false;
-  } else if (input.length < 8) {
-    // 입력 중일 때는 에러 표시하지 않고 버튼만 비활성화
-    clearError();
-    searchButton.disabled = true;
+  } else if (input.length > 0 && input.length < 8) {
+    setError('8자리 숫자를 입력해주세요.');
     return false;
-  } else if (!/^\d{8}$/.test(input)) {
+  } else if (!isValid && input.length === 8) {
     setError('숫자만 입력 가능합니다.');
     return false;
   } else {
@@ -260,20 +198,13 @@ function validateInput() {
 function setError(message) {
   errorMessageDiv.textContent = message;
   inputField.classList.add('error');
-  inputField.setAttribute('aria-invalid', 'true');
   searchButton.disabled = true;
 }
 
 function clearError() {
   errorMessageDiv.textContent = '';
   inputField.classList.remove('error');
-  inputField.setAttribute('aria-invalid', 'false');
-  
-  // 8자리 숫자가 완성된 경우에만 버튼 활성화
-  const input = inputField.value.trim();
-  if (/^\d{8}$/.test(input)) {
-    searchButton.disabled = false;
-  }
+  searchButton.disabled = false;
 }
 
 function searchData() {
@@ -281,14 +212,14 @@ function searchData() {
   
   // 입력값이 없는 경우
   if (!input) {
-    showResult('Article number를 입력하세요.', 'error');
+    alert('Article number를 입력하세요.');
     inputField.focus();
     return;
   }
   
   // 8자리 숫자 형식 검증
   if (!/^\d{8}$/.test(input)) {
-    showResult('8자리 숫자를 정확히 입력하세요.', 'error');
+    alert('8자리 숫자를 정확히 입력하세요.');
     inputField.focus();
     return;
   }
@@ -297,27 +228,17 @@ function searchData() {
   const result = dataMap[input];
   
   if (result) {
-    showResult(`Article Number: ${input}\n\n${result}`, 'success');
+    resultDiv.textContent = `Article Number: ${input}\n\n${result}`;
+    resultDiv.className = 'result success';
   } else {
-    showResult(`Article Number: ${input}\n\n해당 번호에 대한 데이터가 없습니다.`, 'not-found');
+    resultDiv.textContent = `Article Number: ${input}\n\n해당 번호에 대한 데이터가 없습니다.`;
+    resultDiv.className = 'result not-found';
   }
 }
 
-function showResult(message, type) {
-  resultDiv.textContent = message;
-  resultDiv.className = 'result'; // 먼저 기본 클래스만 설정
-  
-  // 약간의 지연 후 타입별 클래스 추가 (애니메이션 효과를 위해)
-  setTimeout(() => {
-    resultDiv.className = `result ${type}`;
-  }, 50);
-}
-
-// 페이지 로드 시 초기 설정
+// 페이지 로드 시 초기 검증
 window.addEventListener('load', function() {
-  // 초기 상태에서 버튼 비활성화
-  searchButton.disabled = true;
-  inputField.focus();
+  validateInput();
 });
 </script>
 </body>
