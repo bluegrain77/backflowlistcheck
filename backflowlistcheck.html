@@ -108,7 +108,7 @@
   <h1>B/F List Check</h1>
   <div class="input-container">
     <label for="inputNumber">Article Number (8자리 숫자)</label>
-    <input type="text" id="inputNumber" placeholder="예: 70580699" maxlength="8"/>
+    <input type="text" id="inputNumber" placeholder="예: 40533223" maxlength="8"/>
     <div class="error-message" id="errorMessage"></div>
   </div>
   <button onclick="searchData()" id="searchButton">조회하기</button>
@@ -116,43 +116,56 @@
 </div>
 <script>
 const dataMap = {
-    "90595440": "Alert 스밤피그",
-    "10597527": "Alert 클립칵투스",
-    "80318943": "Alert 메델보그(고양버퍼)",
-    "90536158": "Alert 바리에라",
-    "00214341": "블란다마트 8Box 리플 [8Box B/f]",
-    "40444608": "그릴티데르 1Box 리플 [3Box B/f]",  
-    "30599262": "셰세베르 1pt 리플 [2Pt B/f]",  
-    "70581496": "글라델리그 1Box 리플 [19Box B/f]",  
-    "20521037": "마르토르프 2Box 리플 [5Box B/f]",  
-    "10373202": "블롬닝 1Box 리플 [4Box B/f]",  
-    "40373205": "블롬닝 2Box 리플 [3Box B/f]",
-    "50485009": "전량 B/f(F rts) 베코스타",  
-    "50529391": "전량 B/f(F rts) 웁퓔드",  
-    "30323305": "전량 B/f(F rts) 바르다겐",  
-    "20179624": "전량 B/f(F rts) 블란다",  
-    "20174645": "전량 B/f(F rts) 콘시스",  
-    "30174536": "전량 B/f(F rts) 콘시스",  
-    "30587909": "전량 B/f(F rts) 이케아365 13cm",  
-    "10608757": "전량 B/f(F rts) 에클라탄트",
-    "10586294": "전량 B/f(F rts) 스플리테르뉘",   
-    "10459168": "전량 B/f(F rts) 스토레타레",  
-    "00396317": "전량 B/f(F rts) 스토르신트",  
-    "40174588": "전량 B/f(F rts) 고디스", 
-    "40506917": "전량 B/f(F rts) 필피스크",   
-    "80562765": "전량 B/f(S rts) 스바르트피스크",
-    "30581506": "전량 B/f(S rts) 바르다겐",
-    "60555191": "전량 B/f(S rts) 핀마트",
-    "70452116": "전량 B/f(S rts) 틸렘파드",
-    "70444555": "전량 B/f(S rts) 그릴티데르",
-    "20484110": "전량 B/f(S rts) 튕들뢰스",
-    "10610996": "전량 B/f(S rts) 클립칵투스",
-    "00505359": "전량 B/f(S rts) 엔투시아슴",
-    "50279698": "전량 B/f(S rts) 이케아365 22cm",
-    "70279701": "전량 B/f(S rts) 이케아365 28cm",
-    "90177589": "전량 B/f(S rts) 드라곤",
-    "00592441": "전량 B/f(S rts) 스톡홀름",
-    "80592442": "전량 B/f(S rts) 스톡홀름"
+    "40533223": "웁퓔드 채소 스크러버 / F-rts 전량 백플",
+    "50485009": "베코스타 / F-rts 전량 백플",
+    "30359177": "이케아 365 보관용기 750ml / F-rts 전량 백플",
+    "10608757": "에클라탄트 / F-rts 전량 백플",
+    "40327690": "에겐돔리그 / F-rts 전량 백플",
+    "30599262": "셰세베르 지퍼백 / F-rts 전량 백플",
+    "00396317": "스토르신트 / F-rts 전량 백플",
+    "00603798": "빈테르핀트 / F-rts 전량 백플",
+    "40605700": "베타이 / F-rts 전량 백플",
+    "00605698": "베타이 / F-rts 전량 백플",
+    "20283526": "이케아 365 3Box / S-rts 전량 백플",
+    "90289266": "뵈르다 2Box / S-rts 전량 백플",
+    "40422319": "이케아 365 3Box/ S-rts 전량 백플",
+    "60173564": "콘시스 13Box / S-rts 전량 백플",
+    "20566342": "트로이카 2Box/  S-rts 전량 백플",
+    "40563432": "스베르드피스크 4Box / S-rts 전량 백플",
+    "70553219": "시트론하이 2Box /  S-rts 전량 백플",
+    "20557248": "압티틀리그 6Box / S-rts 전량 백플",
+    "90163323": "이케아 365 옐테 1Box / S-rts 전량 백플",
+    "70559768": "스막삼 2Box / S-rts 전량 백플",
+    "40449205": "클로크렌 1Box / S-rts 전량 백플",
+    "40444608": "그릴티데르 6Box / S-rts 전량 백플",
+    "80484254": "이케아 365 3Box / S-rts 전량 백플",
+    "10610996": "클립칵투스 4Box / S-rts 전량 백플",
+    "10592426": "스톡홀름 2025 4Box / S-rts 전량 백플",
+    "40293874": "살타드 7box / S-rts 전량 백플",
+    "70608943": "펠라르칵투스 3box / S-rts 전량 백플",
+    "80597524": "스쿡스투브 13box / S-rts 전량 백플",
+    "00282943": "이케아 365 8box / S-rts 전량 백플",
+    "10586294": "스플리테르뉘 1pt 입고 2box 리플 후 전량 B/f",
+    "40596710": "프루타 2pt 입고 1pt B/f",
+    "30597102": "프루타 2pt 입고 4 Box 리플 후 전량 B/f",
+    "40417450": "드룀빌드 1.2pt 입고 0.2pt(4box) 리플 후 1pt B/f",
+    "40513531": "엥켈스포리그 4box 리플 후 전량 B/f",
+    "70599665": "크노르하네 1box 리플 후 전량 B/f",
+    "10305500": "스콕스타 1box 리플 후 전량 B/f",
+    "10573319": "굼미하이 2box 리플 후 전량 B/f",
+    "00602510": "클립피스크 1pt 입고 1Box 리플 후 전량 B/f",
+    "80605699": "베타이 1.6pt 입고 1Box 리플 후 전량 B/f",
+    "30258951": "이케아 365 11Box 입고 4box 리플 후 전량 B/f",
+    "50279698": "이케아 365 6box 입고 2box 리플 후 전량 B/f",
+    "90585016": "고드미다그 5box 입고 2box 리플 후 전량 B/f",
+    "10609733": "실베르시다 3box 입고 1box 리플 후 전량 B/f",
+    "40609736": "실베르시다 8box 입고 2box 리플 후 전량 B/f",
+    "70174214": "판타스티스크 3box 입고 1box 리플 후 전량 B/f",
+    "70342972": "트레벤트 9box 입고 2box 리플 후 전량 B/f",
+    "00592441": "스톡홀름 2025 7box 입고 2box 리플 후 전량 B/f",
+    "90497213": "엥켈스포리그 1pt 입고 / 서스 3box 리플 후 전량 B/f",
+    "40603782": "판타스티스크 2box 보이드 리플",
+    "60603795": "빈테르핀트 2box 보이드 리플"
 };
 
 const inputField = document.getElementById('inputNumber');
@@ -171,22 +184,23 @@ inputField.addEventListener('input', function(e) {
 
 // Enter 키 이벤트 처리
 inputField.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && !searchButton.disabled) {
     searchData();
   }
 });
 
 function validateInput() {
   const input = inputField.value.trim();
-  const isValid = /^\d{8}$/.test(input);
   
   if (input.length === 0) {
-    setError('');
+    clearError();
+    searchButton.disabled = true;
     return false;
-  } else if (input.length > 0 && input.length < 8) {
-    setError('8자리 숫자를 입력해주세요.');
+  } else if (input.length < 8) {
+    clearError();
+    searchButton.disabled = true;
     return false;
-  } else if (!isValid && input.length === 8) {
+  } else if (!/^\d{8}$/.test(input)) {
     setError('숫자만 입력 가능합니다.');
     return false;
   } else {
@@ -204,7 +218,11 @@ function setError(message) {
 function clearError() {
   errorMessageDiv.textContent = '';
   inputField.classList.remove('error');
-  searchButton.disabled = false;
+  
+  const input = inputField.value.trim();
+  if (/^\d{8}$/.test(input)) {
+    searchButton.disabled = false;
+  }
 }
 
 function searchData() {
