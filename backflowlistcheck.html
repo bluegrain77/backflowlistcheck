@@ -116,7 +116,7 @@
 </div>
 <script>
 const dataMap = {
-    "60613759": "GRILLTIDER 그릴티데르 서빙바구니 스테인리스 2601 AP / 1box 전량 리플",
+ "60613759": "GRILLTIDER 그릴티데르 서빙바구니 스테인리스 2601 AP / 1box 전량 리플",
     "60581468": "GLADELIG 글라델리그 에스프레소컵 10 cl 그레이 AP / 1box 전량 리플",
     "10600431": "FÄRGKLAR 페리클라르 그릇 16 라이트블루 AP / 1box 전량 리플",
     "10588721": "GLADELIG 글라델리그 접시 10 그레이 2-p AP / 1box 전량 리플",
@@ -171,7 +171,7 @@ const dataMap = {
     "30581506": "VARDAGEN 바르다겐 주방집게 30 스테인리스/너도밤나무 AP / 2box 전량 B/f",
     "20596711": "PRUTA 프루타 간식보관용기+뚜껑 0.3 l 라일락/그린 2-p AP / 1pt 전량 B/f",
     "70581482": "VARDAGEN 바르다겐 제스터+손잡이 33 스테인리스/너도밤나무 AP / 1box 전량 B/f",
-    "10512811": "STOLTHET 스톨테트 도마 35x22 대나무 AP / 1pt 전량 B/f",
+    "10512811": "STOLTHET 스톨테트 도마 35x22 대나무 AP / 1pt 전량 B/f”,
     "30454966": "IKEA 365+ 이케아 365+ 칼3 AP / 2box 전량 B/f",
     "50521936": "UPPFYLLD 웁퓔드 핸드헬드 강판 오프화이트 AP / 2box 전량 B/f",
     "20602509": "클립피스크 냄비+뚜껑 5 l 논스틱 코팅 유리/목재 블랙블루 AP / 4box 전량 B/f",
@@ -220,7 +220,6 @@ const searchButton = document.getElementById('searchButton');
 
 // 실시간 입력 검증
 inputField.addEventListener('input', function(e) {
-  // 숫자만 허용
   const value = e.target.value.replace(/[^0-9]/g, '');
   e.target.value = value;
   
@@ -273,21 +272,18 @@ function clearError() {
 function searchData() {
   const input = inputField.value.trim();
   
-  // 입력값이 없는 경우
   if (!input) {
     alert('Article number를 입력하세요.');
     inputField.focus();
     return;
   }
   
-  // 8자리 숫자 형식 검증
   if (!/^\d{8}$/.test(input)) {
     alert('8자리 숫자를 정확히 입력하세요.');
     inputField.focus();
     return;
   }
   
-  // 데이터 조회
   const result = dataMap[input];
   
   if (result) {
